@@ -30,6 +30,12 @@ describe User do
         expect(@user.errors.full_messages).to include("Email can't be blank")
       end
 
+      it "emailは＠がないと登録できない" do
+        @user.email = 'aaaaaa'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Email is invalid")
+      end
+
       it "重複したemailが存在する場合登録できない" do
         @user.save
         another_user = FactoryBot.build(:user, email: @user.email)
@@ -44,12 +50,23 @@ describe User do
       end
 
       it "encrypted_passwordが5文字以下であれば登録できない" do
-        @user.password = "00000"
-        @user.password_confirmation = "00000"
+        @user.password = "abc12"
+        @user.password_confirmation = "abc12"
         @user.valid?
         expect(@user.errors.full_messages).to include("Password is too short (minimum is 6 characters)")
       end
 
+      it "passwordは半角英数字混合でないと登録できない" do
+        @user.password ="abcdef"
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Password confirmation doesn't match Password")
+      end
+
+      it "passwordが存在してもpassword_confirmationが空では登録できない" do
+        @user.password_confirmation = ""
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Password confirmation doesn't match Password")
+      end
     end
   end
 end
