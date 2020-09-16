@@ -14,7 +14,7 @@ class Item < ApplicationRecord
     validates :delivery_fee
     validates :shipping_area
     validates :delivery_time
-    validates :price
+    validates :price, inclusion: { in: (300..9999999)}, format: { with: /\A[0-9]+\z/}
   end
 
   validates :category_id, numericality: { other_than: 1 }
