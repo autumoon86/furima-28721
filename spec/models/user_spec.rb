@@ -67,6 +67,60 @@ describe User do
         @user.valid?
         expect(@user.errors.full_messages).to include("Password confirmation doesn't match Password")
       end
+
+      it "名字が空だと登録できない" do
+        @user.family_name =""
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Family name can't be blank")
+      end
+
+      it "名前が空だと登録できない" do
+        @user.first_name =""
+        @user.valid?
+        expect(@user.errors.full_messages).to include("First name can't be blank")
+      end
+
+      it "名字が全角でないと登録できない" do
+        @user.family_name ="abe"
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Family name is invalid. Input full-width characters.")
+      end
+
+      it "名前が全角でないと登録できない" do
+        @user.first_name ="tarou"
+        @user.valid?
+        expect(@user.errors.full_messages).to include("First name is invalid. Input full-width characters.")
+      end
+
+      it "名字のフリガナがないと登録できない" do
+        @user.family_name_kana =""
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Family name kana can't be blank")
+      end
+
+      it "名前のフリガナがないと登録できない" do
+        @user.first_name_kana =""
+        @user.valid?
+        expect(@user.errors.full_messages).to include("First name kana can't be blank")
+      end
+
+      it "名字のフリガナが全角カタカナでないと登録できない" do
+        @user.family_name_kana ="あべ"
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Family name kana is invalid. Input full-width katakana characters.")
+      end
+
+      it "名前のフリガナが全角カタカナでないと登録できない" do
+        @user.first_name_kana ="たろう"
+        @user.valid?
+        expect(@user.errors.full_messages).to include("First name kana is invalid. Input full-width katakana characters.")
+      end
+
+      it "誕生日が空だと登録できない" do
+        @user.birthday =""
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Birthday can't be blank")
+      end
     end
   end
 end
