@@ -1,2 +1,0 @@
-class Exhibition < ApplicationRecord
-end
