@@ -37,6 +37,12 @@ RSpec.describe AddressOrder, type: :model do
         expect(@address_order.errors.full_messages).to include("Prefecture can't be blank")
       end
 
+      it 'prefectureが{id: 1}では登録できないこと' do
+        @address_order.prefecture_id = 1
+        @address_order.valid?
+        expect(@address_order.errors.full_messages).to include("Prefecture must be other than 1")
+      end
+
       it 'cityが空では登録できないこと' do
         @address_order.city = ''
         @address_order.valid?
