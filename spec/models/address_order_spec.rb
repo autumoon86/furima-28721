@@ -31,6 +31,13 @@ RSpec.describe AddressOrder, type: :model do
         expect(@address_order.errors.full_messages).to include("Postcode include hyphen(-)")
       end
 
+      it 'postcodeは8文字以内で入力すること' do
+        @address_order.postcode = '1234-12345'
+        @address_order.valid?
+        expect(@address_order.errors.full_messages).to include("Postcode is too long (maximum is 8 characters)")
+      end
+
+
       it 'prefectureが空では登録できないこと' do
         @address_order.prefecture_id = ''
         @address_order.valid?
