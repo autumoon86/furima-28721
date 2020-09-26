@@ -73,7 +73,12 @@ RSpec.describe AddressOrder, type: :model do
         @address_order.valid?
         expect(@address_order.errors.full_messages).to include("Phone number is too long (maximum is 11 characters)")
       end
-
+      
+      it 'phone_numberはハイフンありでは登録できないこと' do
+        @address_order.phone_number = '090-1234-1234'
+        @address_order.valid?
+        expect(@address_order.errors.full_messages).to include("Phone number is too long (maximum is 11 characters)")
+      end
     end
   end
 end
