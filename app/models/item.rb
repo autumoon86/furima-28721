@@ -11,6 +11,7 @@ class Item < ApplicationRecord
   has_one :delivery
 
   with_options presence: true do
+    validates :image
     validates :name
     validates :text
     validates :category
